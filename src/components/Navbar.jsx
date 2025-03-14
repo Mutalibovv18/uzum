@@ -1,72 +1,45 @@
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { FiShoppingCart, FiHeart, FiSearch } from "react-icons/fi";
 
-const Carousel = () => {
-  const slides = [
-    "https://images.uzum.uz/cv3eg7ei4n36ls3t0770/main_page_banner.jpg",
-    "https://images.uzum.uz/cug7q9tht56sc95cis1g/main_page_banner.jpg",
-    "https://images.uzum.uz/cv4o265pb7f9qcng1frg/main_page_banner.jpg",
-    "https://images.uzum.uz/cuuoplei4n36ls3rla6g/main_page_banner.jpg",
-    "https://images.uzum.uz/cuuljv3vgbkm5ehgnhcg/main_page_banner.jpg",
-  ];
-
-  const [current, setCurrent] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    if (isHovered) return;
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 3500);
-    return () => clearInterval(interval);
-  }, [isHovered]);
-
+const Navbar = () => {
   return (
-    <div
-      className="max-w-screen-xl mx-auto overflow-hidden rounded-xl relative"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {slides.map((slide, index) => (
-        <div
-          key={index}
-          className={`w-full transition-opacity duration-700 ${
-            index === current ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <img src={slide} className="w-full rounded-xl" alt={`Slide ${index + 1}`} />
+    <header className="bg-white shadow-md py-4">
+      <nav className="container mx-auto flex justify-between items-center px-4">
+        {/* Catalog Button */}
+        <button className="bg-yellow-500 text-white px-4 py-2 rounded-md font-medium hover:bg-yellow-600">
+          Catalog
+        </button>
+        
+        {/* Search Bar */}
+        <div className="flex-1 mx-4">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search for products..."
+              className="w-full p-2 pl-10 border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            />
+            <FiSearch className="absolute left-3 top-3 text-gray-400" />
+          </div>
         </div>
-      ))}
-      
-   
-      <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 justify-between">
-        <button
-          onClick={() => setCurrent((prev) => (prev - 1 + slides.length) % slides.length)}
-          className="btn btn-circle"
-        >
-          ❮
-        </button>
-        <button
-          onClick={() => setCurrent((prev) => (prev + 1) % slides.length)}
-          className="btn btn-circle"
-        >
-          ❯
-        </button>
-      </div>
-      
-
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrent(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === current ? "bg-primary" : "bg-gray-300"
-            }`}
-          />
-        ))}
-      </div>
-    </div>
+        
+        {/* Favorites and Cart */}
+        <div className="flex items-center space-x-6">
+          <Link to="/favorites" className="flex items-center space-x-2 hover:text-yellow-500">
+            <FiHeart className="text-xl" />
+            <span>Saralanganlar</span>
+          </Link>
+          
+          <Link to="/cart" className="relative flex items-center space-x-2 hover:text-yellow-500">
+            <FiShoppingCart className="text-xl" />
+            <span>Cart</span>
+            <span className="absolute -top-2 -right-3 bg-red-500 text-white text-xs rounded-full px-2 py-1">
+              2
+            </span>
+          </Link>
+        </div>
+      </nav>
+    </header>
   );
 };
 
-export default Carousel;
+export default Navbar;
